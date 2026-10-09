@@ -30,3 +30,11 @@ def event_detail(request, slug):
     """Детальная страница выбранного события."""
     event = get_object_or_404(Event, slug=slug, is_published=True)
     return render(request, 'events/event_detail.html', {'event': event})
+
+class EventUpdateView(UpdateView):
+    model = Event
+    form_class = EventForm
+    template_name = "events/event_form.html"
+    success_url = "/events/"
+
+# Comment
