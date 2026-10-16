@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block title %}Регистрация — EventHub{% endblock %}
+{% block content %}
+<section class="auth-section container auth-single">
+  <div class="auth-aside"><span class="eyebrow">✳ ПРИСОЕДИНЯЙСЯ</span><h1>Новые люди.<br>Новые <span class="accent">истории.</span></h1><p>Создай аккаунт, находи интересные встречи и сам собирай людей вокруг своих идей.</p></div>
+  <div class="form-panel"><div class="panel-heading"><span class="eyebrow">JOIN THE COMMUNITY</span><h2>Создать аккаунт</h2><p>Это займёт всего пару минут.</p></div>
+    <form method="post" class="styled-form">{% csrf_token %}
+      {% for field in form %}<div class="form-field"><label for="{{ field.id_for_label }}">{{ field.label }}</label><input class="form-control" type="{{ field.field.widget.input_type }}" name="{{ field.html_name }}" id="{{ field.id_for_label }}" autocomplete="{{ field.name }}" required>{% if field.help_text %}<small class="help-text">{{ field.help_text|safe }}</small>{% endif %}{% for error in field.errors %}<p class="field-error">{{ error }}</p>{% endfor %}</div>{% endfor %}
+      <button type="submit" class="button button-wide">Создать аккаунт ↗</button>
+    </form><p class="auth-switch">Уже с нами? <a href="{% url 'login' %}">Войти</a></p>
+  </div>
+</section>
+{% endblock %}
