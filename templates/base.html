@@ -2,37 +2,24 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}EventHub{% endblock %}</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,500,0,0" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-    <link rel="stylesheet" href="{% static 'css/app.css' %}">
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#10101c">
+  <title>{% block title %}EventHub — события, которые объединяют{% endblock %}</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'css/app.css' %}">
 </head>
 <body>
-    <nav class="nav-shell">
-        <div class="nav-wrapper container">
-            <a href="{% url 'events:home' %}" class="brand-logo brand-mark">EventHub</a>
-            <ul id="nav-mobile" class="right hide-on-med-and-down">
-                <li><a href="{% url 'events:home' %}">Главная</a></li>
-                <li><a href="{% url 'events:event_list' %}">Каталог событий</a></li>
-                <li><a href="{% url 'events:event_create' %}" class="btn amber darken-2 waves-effect waves-light" style="border-radius: 6px; font-weight: 700;">+ Создать событие</a></li>
-            </ul>
-        </div> 
-    </nav>
-
-    <main>
-        {% block content %}{% endblock %}
-    </main>
-
-    <footer class="page-footer grey darken-4" style="margin-top: 60px; padding-top: 20px;">
-        <div class="container center-align white-text" style="padding-bottom: 20px;">
-            <p>© 2026 EventHub — Университетская платформа событий.</p>
-        </div>
-    </footer>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-</body>
-</html>
+<header class="site-header"><nav class="nav-shell container" aria-label="Главная навигация">
+  <a href="{% url 'events:home' %}" class="brand-mark"><span class="brand-icon">✳</span> event<span>hub</span></a>
+  <div class="nav-links"><a href="{% url 'events:event_list' %}">Все события</a>
+  {% if user.is_authenticated %}
+    <a href="{% url 'events:event_create' %}" class="button button-small">＋ Создать событие</a><span class="user-chip">● {{ user.username }}</span>
+    <form method="post" action="{% url 'logout' %}" class="logout-form">{% csrf_token %}<button type="submit" class="nav-logout">Выйти ↗</button></form>
+  {% else %}
+    <a href="{% url 'login' %}">Войти</a><a href="{% url 'signup' %}" class="button button-small">Создать аккаунт ↗</a>
+  {% endif %}</div>
+</nav></header>
+<main>{% block content %}{% endblock %}</main>
+<footer class="site-footer"><div class="container footer-inner"><a href="{% url 'events:home' %}" class="brand-mark"><span class="brand-icon">✳</span> event<span>hub</span></a><p>Находи своих. Создавай моменты.</p><span>© 2026 EventHub</span></div></footer>
+</body></html>

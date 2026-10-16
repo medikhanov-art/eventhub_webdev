@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}Вход — EventHub{% endblock %}
+{% block content %}
+<section class="auth-section container auth-single">
+  <div class="auth-aside"><span class="eyebrow">✳ СНОВА ПРИВЕТ</span><h1>Твоя следующая<br>история <span class="accent">ждёт.</span></h1><p>Войди, чтобы создавать события и быть ближе к тому, что тебе интересно.</p></div>
+  <div class="form-panel"><div class="panel-heading"><span class="eyebrow">WELCOME BACK</span><h2>С возвращением</h2><p>Введи данные своего аккаунта.</p></div>
+    <form method="post" class="styled-form">{% csrf_token %}
+      {% if form.non_field_errors %}<div class="form-alert">{{ form.non_field_errors }}</div>{% endif %}
+      {% for field in form %}<div class="form-field"><label for="{{ field.id_for_label }}">{% if field.name == "username" %}Имя пользователя{% else %}Пароль{% endif %}</label><input class="form-control" type="{{ field.field.widget.input_type }}" name="{{ field.html_name }}" id="{{ field.id_for_label }}" autocomplete="{{ field.name }}" required>{% for error in field.errors %}<p class="field-error">{{ error }}</p>{% endfor %}</div>{% endfor %}
+      {% if next %}<input type="hidden" name="next" value="{{ next }}">{% endif %}
+      <button type="submit" class="button button-wide">Войти в аккаунт ↗</button>
+    </form><p class="auth-switch">Впервые здесь? <a href="{% url 'signup' %}">Создать аккаунт</a></p>
+  </div>
+</section>
+{% endblock %}

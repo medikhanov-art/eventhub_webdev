@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'events',
+    'accounts',
 ]
 
 MIDDLEWARE = [
@@ -128,3 +129,7 @@ MAILERS = {
         'BACKEND': 'django.core.mail.backends.console.EmailBackend',
     },
 }
+
+LOGIN_URL = 'login'
+LOGIN_REDIRECT_URL = 'events:event_list'
+LOGOUT_REDIRECT_URL = 'events:home'
