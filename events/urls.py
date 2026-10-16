@@ -6,9 +6,8 @@ app_name = "events"
 urlpatterns = [
     path('', views.HomeView.as_view(), name="home"),
     path('events/', views.EventListView.as_view(), name="event_list"),
-    path('events/<int:pk>', views.EventDetailView.as_view(), name="event_detail"),
+    path('events/<int:pk>/', views.EventDetailView.as_view(), name="event_detail"),
     path('events/create/', views.EventCreateView.as_view(), name="event_create"),
-    path('event/<slug:slug>/', views.event_detail, name='event_detail'),
-    path('event/update/<int:pk>/', views.EventUpdateView.as_view(), name='event_update'),
-
+    path('events/update/<int:pk>/', views.EventUpdateView.as_view(), name="event_update"),
+    path('events/delete/<int:pk>/', views.EventDeleteView.as_view(), name="event_delete"),
 ]

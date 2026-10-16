@@ -5,28 +5,46 @@
 {% block content %}
 <section class="page-shell">
     <div class="container">
-        <div class="page-header">
-            <a href="{% url 'event_list' %}" class="feature-link">← Назад к каталогу</a>
-            <span class="eyebrow">Детали события</span>
-            <h1>{{ event.title }}</h1>
-            <p class="event-date">{{ event.starts_at|date:"d E Y, H:i" }}</p>
+        <div class="page-header" style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap;">
+            <div>
+                <a href="{% url 'events:event_list' %}" class="feature-link">← Назад к каталогу</a>
+                <br><br>
+                <span class="eyebrow">Детали события</span>
+                <h1>{{ event.title }}</h1>
+                <p class="event-date">🗓 {{ event.starts_at|date:"d E Y, H:i" }}</p>
+            </div>
+
+            <!-- Блок управления событием (Редактировать / Удалить) -->
+            <div style="margin-top: 20px; display: flex; gap: 10px;">
+                <a href="{% url 'events:event_update' event.pk %}" class="btn grey lighten-1 waves-effect waves-light black-text" style="border-radius: 6px; font-weight: 600;">
+                    Редактировать
+                </a>
+                <form action="{% url 'events:event_delete' event.pk %}" method="post" style="display: inline;">
+                    {% csrf_token %}
+                    <button type="submit" class="btn red darken-2 waves-effect waves-light" style="border-radius: 6px; font-weight: 600;" onclick="return confirm('Вы действительно хотите пометить событие как удалённое?');">
+                        Удалить
+                    </button>
+                </form>
+            </div>
         </div>
 
-        <article class="event-card" style="max-width: 800px; margin: 0 auto;">
+        <article class="event-card z-depth-1" style="max-width: 800px; margin: 0 auto; padding: 24px; border-radius: 12px; background: #fff;">
             {% if event.poster %}
                 <img src="{{ event.poster.url }}" alt="{{ event.title }}" class="event-poster" style="max-height: 450px; object-fit: cover; width: 100%; border-radius: 8px;">
             {% endif %}
 
             <div style="margin-top: 24px;">
-                <h3>Краткое описание</h3>
-                <p class="lead"><strong>{{ event.summary }}</strong></p>
+                <h4 style="font-size: 1.3rem; font-weight: 700;">Краткое описание</h4>
+                <p class="lead" style="font-size: 1.1rem; color: #444;"><strong>{{ event.summary }}</strong></p>
             </div>
 
             <hr style="margin: 24px 0; border: 0; border-top: 1px solid #e0e0e0;">
 
             <div>
-                <h3>Подробная информация</h3>
-                <p>{{ event.description|linebreaks }}</p>
+                <h4 style="font-size: 1.3rem; font-weight: 700;">Подробная информация</h4>
+                <div style="font-size: 1rem; line-height: 1.6; color: #333;">
+                    {{ event.description|linebreaks }}
+                </div>
             </div>
         </article>
     </div>

@@ -1,7 +1,8 @@
-from django.views.generic import TemplateView, ListView, DetailView, CreateView
-from django.shortcuts import render, get_object_or_404
+from django.views.generic import ListView, DetailView, CreateView, TemplateView, UpdateView
+from django.shortcuts import render, get_object_or_404, redirect
 from .models import Event
 from .forms import EventForm
+from django.views import View
 
 
 class HomeView(TemplateView):
@@ -37,4 +38,14 @@ class EventUpdateView(UpdateView):
     template_name = "events/event_form.html"
     success_url = "/events/"
 
+class EventDeleteView(View):
+    def post(self, request, pk):
+        event = get_object_or_404(Event, pk=pk)
+        event.is_deleted = True
+        event.save()
+        return redirect('events:event_list')
+
+def home(request):
+    events = Event.objects.all().order_by('-starts_at')[:6] # берем первые 6 ивентов
+    return render(request, 'events/home.html', {'events': events})
 # Comment

@@ -17,5 +17,4 @@ class Event(models.Model):
         return self.title
 
     def get_absolute_url(self):
-        """Возвращает уникальный URL для детальной страницы события."""
-        return reverse('event_detail', kwargs={'slug': self.slug})
+        return reverse('events:event_detail', kwargs={'pk': self.pk})
